@@ -18,7 +18,7 @@
  * Set __ASDisplayLayerMaxConcurrentDisplayCount to change the maximum allowed number of concurrent displays.
  */
 
-#define ASDISPLAYNODE_DELAY_DISPLAY 0
+#define ASDISPLAYNODE_DELAY_DISPLAY 1
 
 #if ASDISPLAYNODE_DELAY_DISPLAY
 static long __ASDisplayLayerMaxConcurrentDisplayCount = 1;

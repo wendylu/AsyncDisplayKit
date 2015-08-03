@@ -560,6 +560,30 @@ void ASDisplayNodePerformBlockOnMainThread(void (^block)())
   [[self asyncLayer] displayImmediately];
 }
 
+- (void)waitUntilSubtreeComplete
+{
+  // This method was created for the primary purpose of allowing asynchronous & concurrent nodes to guarantee they are
+  // fully displayed before becoming visible, by blocking the main thread for any remaining time in their preparation.
+  // If a use case is discovered that involves callers from non-main threads, this method is still likely to work as
+  // desired, but proceed with caution in removing this assertion.
+  ASDisplayNodeAssertMainThread();
+  
+  // Contain the locker within a scope that does not include the semaphore wait,
+  // so that other threads may interact with properties during display as this thread waits.
+  {
+    ASDN::MutexLocker l(_propertyLock);
+    NSUInteger pendingDisplayNodes = _pendingDisplayNodes.count;
+    
+    if (pendingDisplayNodes == 0) {
+      return;
+    } else if (!_displaySemaphore) {
+      // Create a semaphore that we will immediately block on.  When _pendingDisplayNodes falls to zero, it will be signalled.
+      _displaySemaphore = dispatch_semaphore_create(0);
+    }
+  }
+  dispatch_semaphore_wait(_displaySemaphore, DISPATCH_TIME_FOREVER);
+}
+
 // These private methods ensure that subclasses are not required to call super in order for _renderingSubnodes to be properly managed.
 
 - (void)__layout
@@ -1234,6 +1258,9 @@ static NSInteger incrementIfFound(NSInteger i) {
 
   // only trampoline if there is a placeholder and nodes are done displaying
   if ([self _pendingDisplayNodesHaveFinished] && _placeholderLayer.superlayer) {
+    if (_displaySemaphore) {
+      dispatch_semaphore_signal(_displaySemaphore);
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
       void (^cleanupBlock)() = ^{
         [self _tearDownPlaceholderLayer];

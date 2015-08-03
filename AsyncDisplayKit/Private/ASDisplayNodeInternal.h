@@ -42,6 +42,7 @@ typedef NS_OPTIONS(NSUInteger, ASDisplayNodeMethodOverrides) {
 @protected
   // Protects access to _view, _layer, _pendingViewState, _subnodes, _supernode, and other properties which are accessed from multiple threads.
   ASDN::RecursiveMutex _propertyLock;
+  dispatch_semaphore_t _displaySemaphore;
 
   ASDisplayNode * __weak _supernode;
 

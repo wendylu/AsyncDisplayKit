@@ -52,6 +52,11 @@ static const NSInteger kMaxLitterSize = 100;        // max number of kitten cell
   _tableView.separatorStyle = UITableViewCellSeparatorStyleNone; // KittenNode has its own separator
   _tableView.asyncDataSource = self;
   _tableView.asyncDelegate = self;
+  
+  ASRangeTuningParameters tuningParameters;
+  tuningParameters.leadingBufferScreenfuls = 0.0;
+  tuningParameters.trailingBufferScreenfuls = 0.0;
+  [_tableView setTuningParameters:tuningParameters forRangeType:ASLayoutRangeTypeRender];
 
   // populate our "data source" with some random kittens
   _kittenDataSource = [self createLitterWithSize:kLitterSize];

@@ -266,6 +266,8 @@ typedef CALayer *(^ASDisplayNodeLayerBlock)();
 /** @name Drawing and Updating the View */
 
 
+- (void)waitUntilSubtreeComplete;
+
 /** 
  * @abstract Whether this node's view performs asynchronous rendering.
  *

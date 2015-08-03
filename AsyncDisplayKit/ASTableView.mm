@@ -467,6 +467,8 @@ void ASPerformBlockWithoutAnimation(BOOL withoutAnimation, void (^block)()) {
   // This is actually a workaround for a bug we are seeing in some rare cases (selected background view
   // overlaps other cells if size of ASCellNode has changed.)
   cell.clipsToBounds = node.clipsToBounds;
+  
+  [node waitUntilSubtreeComplete];
 
   return cell;
 }
