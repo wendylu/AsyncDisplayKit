@@ -312,7 +312,7 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
       __weak __typeof__(self) weakSelf = self;
       ASImageDownloaderProgressImage progress = nil;
       if (isVisible) {
-        progress = ^(UIImage * _Nonnull progressImage, id _Nullable downloadIdentifier) {
+        progress = ^(UIImage * _Nonnull progressImage, CGFloat progress, id _Nullable downloadIdentifier) {
           __typeof__(self) strongSelf = weakSelf;
           if (strongSelf == nil) {
             return;

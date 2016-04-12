@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ASNetworkImageNode : ASImageNode
 
+@property (nonatomic, assign) CGFloat imageProgress;
+@property (nonatomic, assign) CGFloat renderProgress;
+
 /**
  * The designated initializer.  Cache and Downloader are WEAK references.
  *
@@ -119,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param imageNode The sender.
  */
-- (void)imageNodeDidFinishDecoding:(ASNetworkImageNode *)imageNode;
+- (void)imageNodeDidFinishDecoding:(ASNetworkImageNode *)imageNode progress:(CGFloat)progress;
 
 @end
 

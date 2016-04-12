@@ -37,7 +37,9 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
   id _downloadIdentifier;
 
   BOOL _imageLoaded;
-  
+  CGFloat _imageProgress;
+  CGFloat _renderProgress;
+
   BOOL _delegateSupportsDidStartFetchingData;
   BOOL _delegateSupportsDidFailWithError;
   BOOL _delegateSupportsImageNodeDidFinishDecoding;
@@ -116,9 +118,11 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
 
   _URL = URL;
 
-  if (reset || _URL == nil)
+  if (reset || _URL == nil) {
     self.image = _defaultImage;
-  
+    self.imageProgress = 0.0;
+  }
+
   if (self.interfaceState & ASInterfaceStateFetchData) {
     [self fetchData];
   }
@@ -146,6 +150,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
     // If we continue to hold the lock here, it will still be locked until the next unlock() call, causing a possible deadlock with
     // -[ASNetworkImageNode displayWillStart] (which is called on a different thread / main, at an unpredictable time due to ASMainRunloopQueue).
     self.image = defaultImage;
+    self.imageProgress = 0.0;
   } else {
     _lock.unlock();
   }
@@ -164,7 +169,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
   
   _delegateSupportsDidStartFetchingData = [delegate respondsToSelector:@selector(imageNodeDidStartFetchingData:)];
   _delegateSupportsDidFailWithError = [delegate respondsToSelector:@selector(imageNode:didFailWithError:)];
-  _delegateSupportsImageNodeDidFinishDecoding = [delegate respondsToSelector:@selector(imageNodeDidFinishDecoding:)];
+  _delegateSupportsImageNodeDidFinishDecoding = [delegate respondsToSelector:@selector(imageNodeDidFinishDecoding:progress:)];
 }
 
 - (id<ASNetworkImageNodeDelegate>)delegate
@@ -192,6 +197,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
       if (result) {
         self.image = result;
         _imageLoaded = YES;
+        self.imageProgress = 1.0;
       }
     }
   }
@@ -230,7 +236,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
       __weak __typeof__(self) weakSelf = self;
       ASImageDownloaderProgressImage progress = nil;
       if (isVisible) {
-        progress = ^(UIImage * _Nonnull progressImage, id _Nullable downloadIdentifier) {
+        progress = ^(UIImage * _Nonnull progressImage, CGFloat progress, id _Nullable downloadIdentifier) {
           __typeof__(self) strongSelf = weakSelf;
           if (strongSelf == nil) {
             return;
@@ -243,6 +249,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
           }
           
           strongSelf.image = progressImage;
+          strongSelf.imageProgress = progress;
         };
       }
       [_downloader setProgressImageBlock:progress callbackQueue:dispatch_get_main_queue() withDownloadIdentifier:_downloadIdentifier];
@@ -293,6 +300,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
   }
   self.image = _defaultImage;
   _imageLoaded = NO;
+  self.imageProgress = 0.0;
 }
 
 - (void)_cancelImageDownload
@@ -371,6 +379,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
           }
           
           _imageLoaded = YES;
+          self.imageProgress = 1.0;
           [_delegate imageNode:self didLoadImage:self.image];
         });
       }
@@ -393,6 +402,7 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
           if (responseImage != NULL) {
             strongSelf->_imageLoaded = YES;
             strongSelf.image = responseImage;
+            strongSelf->_imageProgress = 1.0;
           }
 
           strongSelf->_downloadIdentifier = nil;
@@ -451,13 +461,14 @@ static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
 
 #pragma mark - ASDisplayNode+Subclasses
 
-- (void)asyncdisplaykit_asyncTransactionContainerStateDidChange
+- (void)displayDidFinish
 {
-  if (self.asyncdisplaykit_asyncTransactionContainerState == ASAsyncTransactionContainerStateNoTransactions) {
-    ASDN::MutexLocker l(_lock);
-    if (self.layer.contents != nil && _delegateSupportsImageNodeDidFinishDecoding) {
-      [self.delegate imageNodeDidFinishDecoding:self];
-    }
+  [super displayDidFinish];
+
+  ASDN::MutexLocker l(_lock);
+  if (self.layer.contents != nil && _delegateSupportsImageNodeDidFinishDecoding && _renderProgress < 1.0 - FLT_EPSILON) {
+    _renderProgress = _imageProgress;
+    [self.delegate imageNodeDidFinishDecoding:self progress:_renderProgress];
   }
 }
 

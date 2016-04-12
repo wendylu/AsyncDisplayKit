@@ -314,6 +314,9 @@
 		9CDC18CC1B910E12004965E2 /* ASLayoutablePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CDC18CB1B910E12004965E2 /* ASLayoutablePrivate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9CDC18CD1B910E12004965E2 /* ASLayoutablePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CDC18CB1B910E12004965E2 /* ASLayoutablePrivate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F06E5CD1B4CAF4200F015D8 /* ASCollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F06E5CC1B4CAF4200F015D8 /* ASCollectionViewTests.m */; };
+		A2BC76C31CBD8CFD00831E15 /* ASPINRemoteImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = A2BC76C11CBD8CFD00831E15 /* ASPINRemoteImageDownloader.h */; };
+		A2BC76C41CBD8CFD00831E15 /* ASPINRemoteImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BC76C21CBD8CFD00831E15 /* ASPINRemoteImageDownloader.m */; };
+		A2BC76C51CBD8D0200831E15 /* ASPINRemoteImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BC76C21CBD8CFD00831E15 /* ASPINRemoteImageDownloader.m */; };
 		A32FEDD51C501B6A004F642A /* ASTextKitFontSizeAdjuster.h in Headers */ = {isa = PBXBuildFile; fileRef = A32FEDD31C501B6A004F642A /* ASTextKitFontSizeAdjuster.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A373200F1C571B730011FC94 /* ASTextNode+Beta.h in Headers */ = {isa = PBXBuildFile; fileRef = A373200E1C571B050011FC94 /* ASTextNode+Beta.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A37320101C571B740011FC94 /* ASTextNode+Beta.h in Headers */ = {isa = PBXBuildFile; fileRef = A373200E1C571B050011FC94 /* ASTextNode+Beta.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -774,6 +777,8 @@
 		9C8898BA1C738B9800D6B02E /* ASTextKitFontSizeAdjuster.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ASTextKitFontSizeAdjuster.mm; path = TextKit/ASTextKitFontSizeAdjuster.mm; sourceTree = "<group>"; };
 		9CDC18CB1B910E12004965E2 /* ASLayoutablePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASLayoutablePrivate.h; path = AsyncDisplayKit/Layout/ASLayoutablePrivate.h; sourceTree = "<group>"; };
 		9F06E5CC1B4CAF4200F015D8 /* ASCollectionViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ASCollectionViewTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		A2BC76C11CBD8CFD00831E15 /* ASPINRemoteImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPINRemoteImageDownloader.h; sourceTree = "<group>"; };
+		A2BC76C21CBD8CFD00831E15 /* ASPINRemoteImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPINRemoteImageDownloader.m; sourceTree = "<group>"; };
 		A32FEDD31C501B6A004F642A /* ASTextKitFontSizeAdjuster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASTextKitFontSizeAdjuster.h; path = TextKit/ASTextKitFontSizeAdjuster.h; sourceTree = "<group>"; };
 		A373200E1C571B050011FC94 /* ASTextNode+Beta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ASTextNode+Beta.h"; sourceTree = "<group>"; };
 		AC026B571BD3F61800BBC17E /* ASStaticLayoutSpecSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASStaticLayoutSpecSnapshotTests.m; sourceTree = "<group>"; };
@@ -1161,6 +1166,8 @@
 				058D09E9195D050800B7D73C /* ASMutableAttributedStringBuilder.m */,
 				CC7FD9DC1BB5E962005CCB2B /* ASPhotosFrameworkImageRequest.h */,
 				CC7FD9DD1BB5E962005CCB2B /* ASPhotosFrameworkImageRequest.m */,
+				A2BC76C11CBD8CFD00831E15 /* ASPINRemoteImageDownloader.h */,
+				A2BC76C21CBD8CFD00831E15 /* ASPINRemoteImageDownloader.m */,
 				055F1A3619ABD413004DAFF1 /* ASRangeController.h */,
 				055F1A3719ABD413004DAFF1 /* ASRangeController.mm */,
 				69F10C851C84C35D0026140C /* ASRangeControllerUpdateRangeProtocol+Beta.h */,
@@ -1407,6 +1414,7 @@
 				058D0A6D195D05EC00B7D73C /* _ASAsyncTransactionGroup.h in Headers */,
 				058D0A72195D05F800B7D73C /* _ASCoreAnimationExtras.h in Headers */,
 				7A06A73B1C35F08800FE8DAA /* ASRelativeLayoutSpec.h in Headers */,
+				A2BC76C31CBD8CFD00831E15 /* ASPINRemoteImageDownloader.h in Headers */,
 				058D0A53195D05DC00B7D73C /* _ASDisplayLayer.h in Headers */,
 				058D0A55195D05DC00B7D73C /* _ASDisplayView.h in Headers */,
 				B13CA0F71C519E9400E031AB /* ASCollectionViewLayoutFacilitatorProtocol.h in Headers */,
@@ -1886,6 +1894,7 @@
 				E55D86321CA8A14000A0C26F /* ASLayoutable.mm in Sources */,
 				058D0A23195D050800B7D73C /* _ASAsyncTransactionContainer.m in Sources */,
 				058D0A24195D050800B7D73C /* _ASAsyncTransactionGroup.m in Sources */,
+				A2BC76C41CBD8CFD00831E15 /* ASPINRemoteImageDownloader.m in Sources */,
 				DBDB83961C6E879900D0098C /* ASPagerFlowLayout.m in Sources */,
 				058D0A26195D050800B7D73C /* _ASCoreAnimationExtras.mm in Sources */,
 				257754B41BEE44CD00737CA5 /* ASTextKitTailTruncater.mm in Sources */,
@@ -2123,6 +2132,7 @@
 				DB78412E1C6BCE1600A9E2B4 /* _ASTransitionContext.m in Sources */,
 				B350620B1B010EFD0018CF92 /* ASTableView.mm in Sources */,
 				B350620E1B010EFD0018CF92 /* ASTextNode.mm in Sources */,
+				A2BC76C51CBD8D0200831E15 /* ASPINRemoteImageDownloader.m in Sources */,
 				C78F7E2A1BF7808300CDEAFC /* ASTableNode.m in Sources */,
 				509E68661B3AEDD7009B9150 /* CGRect+ASConvenience.m in Sources */,
 				254C6B8D1BF94F8A003EC431 /* ASEqualityHashHelpers.mm in Sources */,

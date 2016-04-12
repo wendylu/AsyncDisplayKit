@@ -103,4 +103,10 @@ ASDISPLAYNODE_EXTERN_C_END
  */
 - (void)cancelLayoutTransitionsInProgress;
 
+/**
+ * @abstract Indicates that the receiver and all subnodes have finished displaying. May be called more than once, for example if the receiver has
+ * a network image node.
+ */
+- (void)hierarchyDisplayDidFinish;
+
 @end
