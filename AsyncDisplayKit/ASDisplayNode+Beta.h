@@ -88,8 +88,8 @@ ASDISPLAYNODE_EXTERN_C_END
  * @see animateLayoutTransition:
  */
 - (void)transitionLayoutWithAnimation:(BOOL)animated
-                         shouldMeasureAsync:(BOOL)shouldMeasureAsync
-                      measurementCompletion:(void(^)())completion;
+                   shouldMeasureAsync:(BOOL)shouldMeasureAsync
+                measurementCompletion:(void(^)())completion;
 
 
 /**
@@ -102,5 +102,11 @@ ASDISPLAYNODE_EXTERN_C_END
  * @abstract Cancels all performing layout transitions. Can be called on any thread.
  */
 - (void)cancelLayoutTransitionsInProgress;
+
+/**
+ * @abstract Indicates that the receiver and all subnodes have finished displaying. May be called more than once, for example if the receiver has
+ * a network image node.
+ */
+- (void)hierarchyDisplayDidFinish;
 
 @end

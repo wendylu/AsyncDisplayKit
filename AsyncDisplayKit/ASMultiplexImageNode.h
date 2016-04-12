@@ -41,10 +41,10 @@ typedef NS_ENUM(NSUInteger, ASMultiplexImageNodeErrorCode) {
    * in their image request.
    */
   ASMultiplexImageNodeErrorCodePhotosImageManagerFailedWithoutError,
-  
+
   /**
    * Indicates that the image node could not retrieve the PHAsset for a given asset identifier.
-   * This typically means that the user has not given Photos framework permissions yet or the asset 
+   * This typically means that the user has not given Photos framework permissions yet or the asset
    * has been removed from the device.
    */
   ASMultiplexImageNodeErrorCodePHAssetIsUnavailable
@@ -120,7 +120,7 @@ typedef NS_ENUM(NSUInteger, ASMultiplexImageNodeErrorCode) {
 #if TARGET_OS_IOS
 /**
  * @abstract The image manager that this image node should use when requesting images from the Photos framework. If this is `nil` (the default), then `PHImageManager.defaultManager` is used.
- 
+
  * @see `+[NSURL URLWithAssetLocalIdentifier:targetSize:contentMode:options:]` below.
  */
 @property (nonatomic, strong) PHImageManager *imageManager;
@@ -246,7 +246,7 @@ didFinishDownloadingImageWithIdentifier:(ASImageIdentifier)imageIdentifier
 #endif
 @end
 
-#pragma mark - 
+#pragma mark -
 #if TARGET_OS_IOS
 @interface NSURL (ASPhotosFrameworkURLs)
 

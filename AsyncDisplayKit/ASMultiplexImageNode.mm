@@ -40,10 +40,10 @@ static NSString *const kAssetsLibraryURLScheme = @"assets-library";
 static const CGSize kMinReleaseImageOnBackgroundSize = {20.0, 20.0};
 
 /**
-  @abstract Signature for the block to be performed after an image has loaded.
-  @param image The image that was loaded, or nil if no image was loaded.
-  @param imageIdentifier The identifier of the image that was loaded, or nil if no image was loaded.
-  @param error An error describing why an image couldn't be loaded, if it failed to load; nil otherwise.
+ @abstract Signature for the block to be performed after an image has loaded.
+ @param image The image that was loaded, or nil if no image was loaded.
+ @param imageIdentifier The identifier of the image that was loaded, or nil if no image was loaded.
+ @param error An error describing why an image couldn't be loaded, if it failed to load; nil otherwise.
  */
 typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdentifier, NSError *error);
 
@@ -79,11 +79,11 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
   id _loadingImageIdentifier;
   id _displayedImageIdentifier;
   __weak NSOperation *_phImageRequestOperation;
-  
+
   // Networking.
   ASDN::RecursiveMutex _downloadIdentifierLock;
   id _downloadIdentifier;
-  
+
   //set on init only
   BOOL _downloaderSupportsNewProtocol;
   BOOL _downloaderImplementsSetProgress;
@@ -99,54 +99,54 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
 @property (nonatomic, readwrite, copy) id loadingImageIdentifier;
 
 /**
-  @abstract Returns the next image identifier that should be downloaded.
-  @discussion This method obeys and reflects the value of `downloadsIntermediateImages`.
-  @result The next image identifier, from `_imageIdentifiers`, that should be downloaded, or nil if no image should be downloaded next.
+ @abstract Returns the next image identifier that should be downloaded.
+ @discussion This method obeys and reflects the value of `downloadsIntermediateImages`.
+ @result The next image identifier, from `_imageIdentifiers`, that should be downloaded, or nil if no image should be downloaded next.
  */
 - (id)_nextImageIdentifierToDownload;
 
 /**
-  @abstract Returns the best image that is immediately available from our datasource without downloading or hitting the cache.
-  @param imageIdentifierOut Upon return, the image identifier for the returned image; nil otherwise.
-  @discussion This method exclusively uses the data source's -multiplexImageNode:imageForIdentifier: method to return images. It does not fetch from the cache or kick off downloading.
-  @result The best UIImage available immediately; nil if no image is immediately available.
+ @abstract Returns the best image that is immediately available from our datasource without downloading or hitting the cache.
+ @param imageIdentifierOut Upon return, the image identifier for the returned image; nil otherwise.
+ @discussion This method exclusively uses the data source's -multiplexImageNode:imageForIdentifier: method to return images. It does not fetch from the cache or kick off downloading.
+ @result The best UIImage available immediately; nil if no image is immediately available.
  */
 - (UIImage *)_bestImmediatelyAvailableImageFromDataSource:(id *)imageIdentifierOut;
 
 /**
-  @abstract Loads and displays the next image in the receiver's loading sequence.
-  @discussion This method obeys `downloadsIntermediateImages`. This method has no effect if nothing further should be loaded, as indicated by `_nextImageIdentifierToDownload`. This method will load the next image from the data-source, if possible; otherwise, the session's image cache will be queried for the desired image, and as a last resort, the image will be downloaded.
+ @abstract Loads and displays the next image in the receiver's loading sequence.
+ @discussion This method obeys `downloadsIntermediateImages`. This method has no effect if nothing further should be loaded, as indicated by `_nextImageIdentifierToDownload`. This method will load the next image from the data-source, if possible; otherwise, the session's image cache will be queried for the desired image, and as a last resort, the image will be downloaded.
  */
 - (void)_loadNextImage;
 
 /**
-  @abstract Fetches the image corresponding to the given imageIdentifier from the given URL from the session's image cache.
-  @param imageIdentifier The identifier for the image to be fetched. May not be nil.
-  @param imageURL The URL of the image to fetch. May not be nil.
-  @param completionBlock The block to be performed when the image has been fetched from the cache, if possible. May not be nil.
-  @param image The image fetched from the cache, if any.
-  @discussion This method queries both the session's in-memory and on-disk caches (with preference for the in-memory cache).
+ @abstract Fetches the image corresponding to the given imageIdentifier from the given URL from the session's image cache.
+ @param imageIdentifier The identifier for the image to be fetched. May not be nil.
+ @param imageURL The URL of the image to fetch. May not be nil.
+ @param completionBlock The block to be performed when the image has been fetched from the cache, if possible. May not be nil.
+ @param image The image fetched from the cache, if any.
+ @discussion This method queries both the session's in-memory and on-disk caches (with preference for the in-memory cache).
  */
 - (void)_fetchImageWithIdentifierFromCache:(id)imageIdentifier URL:(NSURL *)imageURL completion:(void (^)(UIImage *image))completionBlock;
 
 #if TARGET_OS_IOS
 /**
-  @abstract Loads the image corresponding to the given assetURL from the device's Assets Library.
-  @param imageIdentifier The identifier for the image to be loaded. May not be nil.
-  @param assetURL The assets-library URL (e.g., "assets-library://identifier") of the image to load, from ALAsset. May not be nil.
-  @param completionBlock The block to be performed when the image has been loaded, if possible. May not be nil.
-  @param image The image that was loaded. May be nil if no image could be downloaded.
-  @param error An error describing why the load failed, if it failed; nil otherwise.
+ @abstract Loads the image corresponding to the given assetURL from the device's Assets Library.
+ @param imageIdentifier The identifier for the image to be loaded. May not be nil.
+ @param assetURL The assets-library URL (e.g., "assets-library://identifier") of the image to load, from ALAsset. May not be nil.
+ @param completionBlock The block to be performed when the image has been loaded, if possible. May not be nil.
+ @param image The image that was loaded. May be nil if no image could be downloaded.
+ @param error An error describing why the load failed, if it failed; nil otherwise.
  */
 - (void)_loadALAssetWithIdentifier:(id)imageIdentifier URL:(NSURL *)assetURL completion:(void (^)(UIImage *image, NSError *error))completionBlock;
 
 /**
-  @abstract Loads the image corresponding to the given image request from the Photos framework.
-  @param imageIdentifier The identifier for the image to be loaded. May not be nil.
-  @param request The photos image request to load. May not be nil.
-  @param completionBlock The block to be performed when the image has been loaded, if possible. May not be nil.
-  @param image The image that was loaded. May be nil if no image could be downloaded.
-  @param error An error describing why the load failed, if it failed; nil otherwise.
+ @abstract Loads the image corresponding to the given image request from the Photos framework.
+ @param imageIdentifier The identifier for the image to be loaded. May not be nil.
+ @param request The photos image request to load. May not be nil.
+ @param completionBlock The block to be performed when the image has been loaded, if possible. May not be nil.
+ @param image The image that was loaded. May be nil if no image could be downloaded.
+ @param error An error describing why the load failed, if it failed; nil otherwise.
  */
 - (void)_loadPHAssetWithRequest:(ASPhotosFrameworkImageRequest *)request identifier:(id)imageIdentifier completion:(void (^)(UIImage *image, NSError *error))completionBlock;
 #endif
@@ -172,19 +172,19 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
 
   _cache = (id<ASImageCacheProtocol, ASImageCacheProtocolDeprecated>)cache;
   _downloader = (id<ASImageDownloaderProtocol, ASImageDownloaderProtocolDeprecated>)downloader;
-  
+
   ASDisplayNodeAssert([downloader respondsToSelector:@selector(downloadImageWithURL:callbackQueue:downloadProgress:completion:)] || [downloader respondsToSelector:@selector(downloadImageWithURL:callbackQueue:downloadProgressBlock:completion:)], @"downloader must respond to either downloadImageWithURL:callbackQueue:downloadProgress:completion: or downloadImageWithURL:callbackQueue:downloadProgressBlock:completion:.");
-  
+
   _downloaderSupportsNewProtocol = [downloader respondsToSelector:@selector(downloadImageWithURL:callbackQueue:downloadProgress:completion:)];
-  
+
   ASDisplayNodeAssert(cache == nil || [cache respondsToSelector:@selector(cachedImageWithURL:callbackQueue:completion:)] || [cache respondsToSelector:@selector(fetchCachedImageWithURL:callbackQueue:completion:)], @"cacher must respond to either cachedImageWithURL:callbackQueue:completion: or fetchCachedImageWithURL:callbackQueue:completion:");
-  
+
   _downloaderImplementsSetProgress = [downloader respondsToSelector:@selector(setProgressImageBlock:callbackQueue:withDownloadIdentifier:)];
   _downloaderImplementsSetPriority = [downloader respondsToSelector:@selector(setPriority:withDownloadIdentifier:)];
-  
+
   _cacheSupportsNewProtocol = [cache respondsToSelector:@selector(cachedImageWithURL:callbackQueue:completion:)];
   _cacheSupportsClearing = [cache respondsToSelector:@selector(clearFetchedImageFromCacheWithURL:)];
-  
+
   self.shouldBypassEnsureDisplay = YES;
 
   return self;
@@ -217,11 +217,11 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
 - (void)clearFetchedData
 {
   [super clearFetchedData];
-    
+
   [_phImageRequestOperation cancel];
 
   [self _setDownloadIdentifier:nil];
-  
+
   if (_cacheSupportsClearing && self.loadedImageIdentifier != nil) {
     [_cache clearFetchedImageFromCacheWithURL:[_dataSource multiplexImageNode:self URLForImageIdentifier:self.loadedImageIdentifier]];
   }
@@ -275,9 +275,9 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
 - (void)displayWillStart
 {
   [super displayWillStart];
-  
+
   [self fetchData];
-  
+
   if (_downloaderImplementsSetPriority) {
     {
       ASDN::MutexLocker l(_downloadIdentifierLock);
@@ -293,7 +293,7 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
 - (void)visibilityDidChange:(BOOL)isVisible
 {
   [super visibilityDidChange:isVisible];
-  
+
   if (_downloaderImplementsSetPriority) {
     ASDN::MutexLocker l(_downloadIdentifierLock);
     if (_downloadIdentifier != nil) {
@@ -304,30 +304,30 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
       }
     }
   }
-  
+
   if (_downloaderImplementsSetProgress) {
     ASDN::MutexLocker l(_downloadIdentifierLock);
-    
+
     if (_downloadIdentifier != nil) {
       __weak __typeof__(self) weakSelf = self;
       ASImageDownloaderProgressImage progress = nil;
       if (isVisible) {
-        progress = ^(UIImage * _Nonnull progressImage, id _Nullable downloadIdentifier) {
+        progress = ^(UIImage * _Nonnull progressImage, CGFloat progress, id _Nullable downloadIdentifier) {
           __typeof__(self) strongSelf = weakSelf;
           if (strongSelf == nil) {
             return;
           }
-          
+
           ASDN::MutexLocker l(strongSelf->_downloadIdentifierLock);
           //Getting a result back for a different download identifier, download must not have been successfully canceled
           if (ASObjectIsEqual(strongSelf->_downloadIdentifier, downloadIdentifier) == NO && downloadIdentifier != nil) {
             return;
           }
-          
+
           strongSelf.image = progressImage;
         };
       }
-      
+
       [_downloader setProgressImageBlock:progress callbackQueue:dispatch_get_main_queue() withDownloadIdentifier:_downloadIdentifier];
     }
   }
@@ -358,9 +358,9 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
   _dataSource = dataSource;
   _dataSourceFlags.image = [_dataSource respondsToSelector:@selector(multiplexImageNode:imageForImageIdentifier:)];
   _dataSourceFlags.URL = [_dataSource respondsToSelector:@selector(multiplexImageNode:URLForImageIdentifier:)];
-  #if TARGET_OS_IOS
+#if TARGET_OS_IOS
   _dataSourceFlags.asset = [_dataSource respondsToSelector:@selector(multiplexImageNode:assetForLocalIdentifier:)];
-  #endif
+#endif
 }
 
 #pragma mark -
@@ -573,7 +573,7 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
     return;
   }
 
-  #if TARGET_OS_IOS
+#if TARGET_OS_IOS
   // If it's an assets-library URL, we need to fetch it from the assets library.
   if ([[nextImageURL scheme] isEqualToString:kAssetsLibraryURLScheme]) {
     // Load the asset.
@@ -589,7 +589,7 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
       finishedLoadingBlock(image, nextImageIdentifier, error);
     }];
   }
-  #endif
+#endif
   else // Otherwise, it's a web URL that we can download.
   {
     // First, check the cache.
@@ -645,7 +645,7 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
   ASDisplayNodeAssertNotNil(imageIdentifier, @"imageIdentifier is required");
   ASDisplayNodeAssertNotNil(request, @"request is required");
   ASDisplayNodeAssertNotNil(completionBlock, @"completionBlock is required");
-  
+
   /*
    * Locking rationale:
    * As of iOS 9, Photos.framework will eventually deadlock if you hit it with concurrent fetch requests. rdar://22984886
@@ -660,22 +660,22 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
     phImageRequestQueue.maxConcurrentOperationCount = 10;
     phImageRequestQueue.name = @"org.AsyncDisplayKit.MultiplexImageNode.phImageRequestQueue";
   });
-  
+
   // Each ASMultiplexImageNode can have max 1 inflight Photos image request operation
   [_phImageRequestOperation cancel];
-  
+
   __weak __typeof(self) weakSelf = self;
   NSOperation *newImageRequestOp = [NSBlockOperation blockOperationWithBlock:^{
     __strong __typeof(weakSelf) strongSelf = weakSelf;
     if (strongSelf == nil) { return; }
-    
+
     PHAsset *imageAsset = nil;
-    
+
     // Try to get the asset immediately from the data source.
     if (_dataSourceFlags.asset) {
       imageAsset = [strongSelf.dataSource multiplexImageNode:strongSelf assetForLocalIdentifier:request.assetIdentifier];
     }
-    
+
     // Fall back to locking and getting the PHAsset.
     if (imageAsset == nil) {
       [phRequestLock lock];
@@ -685,34 +685,34 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
       }
       [phRequestLock unlock];
     }
-    
+
     if (imageAsset == nil) {
       NSError *error = [NSError errorWithDomain:ASMultiplexImageNodeErrorDomain code:ASMultiplexImageNodeErrorCodePHAssetIsUnavailable userInfo:nil];
       completionBlock(nil, error);
       return;
     }
-    
+
     PHImageRequestOptions *options = [request.options copy];
-    
+
     // We don't support opportunistic delivery – one request, one image.
     if (options.deliveryMode == PHImageRequestOptionsDeliveryModeOpportunistic) {
       options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     }
-    
+
     if (options.deliveryMode == PHImageRequestOptionsDeliveryModeHighQualityFormat) {
       // Without this flag the result will be delivered on the main queue, which is pointless
       // But synchronous -> HighQualityFormat so we only use it if high quality format is specified
       options.synchronous = YES;
     }
-    
+
     PHImageManager *imageManager = strongSelf.imageManager ? : PHImageManager.defaultManager;
     [imageManager requestImageForAsset:imageAsset targetSize:request.targetSize contentMode:request.contentMode options:options resultHandler:^(UIImage *image, NSDictionary *info) {
       NSError *error = info[PHImageErrorKey];
-      
+
       if (error == nil && image == nil) {
         error = [NSError errorWithDomain:ASMultiplexImageNodeErrorDomain code:ASMultiplexImageNodeErrorCodePhotosImageManagerFailedWithoutError userInfo:nil];
       }
-      
+
       if (NSThread.isMainThread) {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
           completionBlock(image, error);
@@ -738,8 +738,8 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
 
   if (_cache) {
     if (_cacheSupportsNewProtocol) {
-      [_cache cachedImageWithURL:imageURL callbackQueue:dispatch_get_main_queue() completion:^(UIImage *imageFromCache) {
-        completionBlock(imageFromCache);
+      [_cache cachedImageWithURL:imageURL callbackQueue:dispatch_get_main_queue() completion:^(id <ASImageContainerProtocol> imageContainer) {
+        completionBlock([imageContainer asdk_image]);
       }];
     } else {
 #pragma clang diagnostic push
@@ -784,20 +784,20 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
       [self _setDownloadIdentifier:[_downloader downloadImageWithURL:imageURL
                                                        callbackQueue:dispatch_get_main_queue()
                                                     downloadProgress:downloadProgressBlock
-                                                          completion:^(UIImage *downloadedImage, NSError *error, id downloadIdentifier) {
+                                                          completion:^(id <ASImageContainerProtocol> imageContainer, NSError *error, id downloadIdentifier) {
                                                             // We dereference iVars directly, so we can't have weakSelf going nil on us.
                                                             __typeof__(self) strongSelf = weakSelf;
                                                             if (!strongSelf)
                                                               return;
-                                                            
+
                                                             ASDN::MutexLocker l(_downloadIdentifierLock);
                                                             //Getting a result back for a different download identifier, download must not have been successfully canceled
                                                             if (ASObjectIsEqual(_downloadIdentifier, downloadIdentifier) == NO && downloadIdentifier != nil) {
                                                               return;
                                                             }
-                                                            
-                                                            completionBlock(downloadedImage, error);
-                                                            
+
+                                                            completionBlock([imageContainer asdk_image], error);
+
                                                             // Delegateify.
                                                             if (strongSelf->_delegateFlags.downloadFinish)
                                                               [strongSelf->_delegate multiplexImageNode:weakSelf didFinishDownloadingImageWithIdentifier:imageIdentifier error:error];
@@ -813,10 +813,10 @@ typedef void(^ASMultiplexImageLoadCompletionBlock)(UIImage *image, id imageIdent
                                                             __typeof__(self) strongSelf = weakSelf;
                                                             if (!strongSelf)
                                                               return;
-                                                            
+
                                                             UIImage *downloadedImage = (coreGraphicsImage ? [UIImage imageWithCGImage:coreGraphicsImage] : nil);
                                                             completionBlock(downloadedImage, error);
-                                                            
+
                                                             // Delegateify.
                                                             if (strongSelf->_delegateFlags.downloadFinish)
                                                               [strongSelf->_delegate multiplexImageNode:weakSelf didFinishDownloadingImageWithIdentifier:imageIdentifier error:error];

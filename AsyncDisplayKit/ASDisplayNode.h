@@ -99,10 +99,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name Initializing a node object */
 
 
-/** 
+/**
  * @abstract Designated initializer.
  *
- * @return An ASDisplayNode instance whose view will be a subclass that enables asynchronous rendering, and passes 
+ * @return An ASDisplayNode instance whose view will be a subclass that enables asynchronous rendering, and passes
  * through -layout and touch handling methods.
  */
 - (instancetype)init;
@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, atomic, copy) NSString *name;
 
-/** 
+/**
  * @abstract Returns whether the node is synchronous.
  *
  * @return NO if the node wraps a _ASDisplayView, YES otherwise.
@@ -168,38 +168,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @name Getting view and layer */
 
-/** 
+/**
  * @abstract Returns a view.
  *
- * @discussion The view property is lazily initialized, similar to UIViewController. 
+ * @discussion The view property is lazily initialized, similar to UIViewController.
  * To go the other direction, use ASViewToDisplayNode() in ASDisplayNodeExtras.h.
  *
- * @warning The first access to it must be on the main thread, and should only be used on the main thread thereafter as 
+ * @warning The first access to it must be on the main thread, and should only be used on the main thread thereafter as
  * well.
  */
 @property (nonatomic, readonly, strong) UIView *view;
 
-/** 
+/**
  * @abstract Returns whether a node's backing view or layer is loaded.
  *
  * @return YES if a view is loaded, or if layerBacked is YES and layer is not nil; NO otherwise.
  */
 @property (atomic, readonly, assign, getter=isNodeLoaded) BOOL nodeLoaded;
 
-/** 
+/**
  * @abstract Returns whether the node rely on a layer instead of a view.
  *
  * @return YES if the node rely on a layer, NO otherwise.
  */
 @property (nonatomic, assign, getter=isLayerBacked) BOOL layerBacked;
 
-/** 
+/**
  * @abstract Returns a layer.
  *
  * @discussion The layer property is lazily initialized, similar to the view property.
  * To go the other direction, use ASLayerToDisplayNode() in ASDisplayNodeExtras.h.
  *
- * @warning The first access to it must be on the main thread, and should only be used on the main thread thereafter as 
+ * @warning The first access to it must be on the main thread, and should only be used on the main thread thereafter as
  * well.
  */
 @property (nonatomic, readonly, strong) CALayer * _Nonnull layer;
@@ -223,11 +223,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new size that fits the receiver's subviews.
  *
- * @discussion Though this method does not set the bounds of the view, it does have side effects--caching both the 
+ * @discussion Though this method does not set the bounds of the view, it does have side effects--caching both the
  * constraint and the result.
  *
- * @warning Subclasses must not override this; it calls -measureWithSizeRange: with zero min size. 
- * -measureWithSizeRange: caches results from -calculateLayoutThatFits:.  Calling this method may 
+ * @warning Subclasses must not override this; it calls -measureWithSizeRange: with zero min size.
+ * -measureWithSizeRange: caches results from -calculateLayoutThatFits:.  Calling this method may
  * be expensive if result is not cached.
  *
  * @see measureWithSizeRange:
@@ -252,7 +252,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (ASLayout *)measureWithSizeRange:(ASSizeRange)constrainedSize;
 
-/** 
+/**
  * @abstract Return the calculated size.
  *
  * @discussion Ideal for use by subclasses in -layout, having already prompted their subnodes to calculate their size by
@@ -264,7 +264,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, assign) CGSize calculatedSize;
 
-/** 
+/**
  * @abstract Return the constrained size range used for calculating layout.
  *
  * @return The minimum and maximum constrained sizes used by calculateLayoutThatFits:.
@@ -284,28 +284,28 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name Managing the nodes hierarchy */
 
 
-/** 
+/**
  * @abstract Add a node as a subnode to this node.
  *
  * @param subnode The node to be added.
  *
- * @discussion The subnode's view will automatically be added to this node's view, lazily if the views are not created 
+ * @discussion The subnode's view will automatically be added to this node's view, lazily if the views are not created
  * yet.
  */
 - (void)addSubnode:(ASDisplayNode *)subnode;
 
-/** 
+/**
  * @abstract Insert a subnode before a given subnode in the list.
  *
  * @param subnode The node to insert below another node.
  * @param below The sibling node that will be above the inserted node.
  *
- * @discussion If the views are loaded, the subnode's view will be inserted below the given node's view in the hierarchy 
+ * @discussion If the views are loaded, the subnode's view will be inserted below the given node's view in the hierarchy
  * even if there are other non-displaynode views.
  */
 - (void)insertSubnode:(ASDisplayNode *)subnode belowSubnode:(ASDisplayNode *)below;
 
-/** 
+/**
  * @abstract Insert a subnode after a given subnode in the list.
  *
  * @param subnode The node to insert below another node.
@@ -316,44 +316,44 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)insertSubnode:(ASDisplayNode *)subnode aboveSubnode:(ASDisplayNode *)above;
 
-/** 
+/**
  * @abstract Insert a subnode at a given index in subnodes.
  *
  * @param subnode The node to insert.
  * @param idx The index in the array of the subnodes property at which to insert the node. Subnodes indices start at 0
  * and cannot be greater than the number of subnodes.
  *
- * @discussion If this node's view is loaded, ASDisplayNode insert the subnode's view after the subnode at index - 1's 
+ * @discussion If this node's view is loaded, ASDisplayNode insert the subnode's view after the subnode at index - 1's
  * view even if there are other non-displaynode views.
  */
 - (void)insertSubnode:(ASDisplayNode *)subnode atIndex:(NSInteger)idx;
 
-/** 
+/**
  * @abstract Replace subnode with replacementSubnode.
  *
  * @param subnode A subnode of self.
  * @param replacementSubnode A node with which to replace subnode.
  *
- * @discussion Should both subnode and replacementSubnode already be subnodes of self, subnode is removed and 
+ * @discussion Should both subnode and replacementSubnode already be subnodes of self, subnode is removed and
  * replacementSubnode inserted in its place.
  * If subnode is not a subnode of self, this method will throw an exception.
  * If replacementSubnode is nil, this method will throw an exception
  */
 - (void)replaceSubnode:(ASDisplayNode *)subnode withSubnode:(ASDisplayNode *)replacementSubnode;
 
-/** 
+/**
  * @abstract Remove this node from its supernode.
  *
  * @discussion The node's view will be automatically removed from the supernode's view.
  */
 - (void)removeFromSupernode;
 
-/** 
+/**
  * @abstract The receiver's immediate subnodes.
  */
 @property (nonatomic, readonly, copy) NSArray<ASDisplayNode *> *subnodes;
 
-/** 
+/**
  * @abstract The receiver's supernode.
  */
 @property (nonatomic, readonly, weak) ASDisplayNode *supernode;
@@ -362,13 +362,13 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name Drawing and Updating the View */
 
 
-/** 
+/**
  * @abstract Whether this node's view performs asynchronous rendering.
  *
  * @return Defaults to YES, except for synchronous views (ie, those created with -initWithViewBlock: /
  * -initWithLayerBlock:), which are always NO.
  *
- * @discussion If this flag is set, then the node will participate in the current asyncdisplaykit_async_transaction and 
+ * @discussion If this flag is set, then the node will participate in the current asyncdisplaykit_async_transaction and
  * do its rendering on the displayQueue instead of the main thread.
  *
  * Asynchronous rendering proceeds as follows:
@@ -392,38 +392,38 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) BOOL displaysAsynchronously;
 
-/** 
+/**
  * @abstract Whether to draw all descendant nodes' layers/views into this node's layer/view's backing store.
  *
  * @discussion
- * When set to YES, causes all descendant nodes' layers/views to be drawn directly into this node's layer/view's backing 
+ * When set to YES, causes all descendant nodes' layers/views to be drawn directly into this node's layer/view's backing
  * store.  Defaults to NO.
  *
- * If a node's descendants are static (never animated or never change attributes after creation) then that node is a 
+ * If a node's descendants are static (never animated or never change attributes after creation) then that node is a
  * good candidate for rasterization.  Rasterizing descendants has two main benefits:
  * 1) Backing stores for descendant layers are not created.  Instead the layers are drawn directly into the rasterized
  * container.  This can save a great deal of memory.
  * 2) Since the entire subtree is drawn into one backing store, compositing and blending are eliminated in that subtree
  * which can help improve animation/scrolling/etc performance.
  *
- * Rasterization does not currently support descendants with transform, sublayerTransform, or alpha. Those properties 
+ * Rasterization does not currently support descendants with transform, sublayerTransform, or alpha. Those properties
  * will be ignored when rasterizing descendants.
  *
- * Note: this has nothing to do with -[CALayer shouldRasterize], which doesn't work with ASDisplayNode's asynchronous 
+ * Note: this has nothing to do with -[CALayer shouldRasterize], which doesn't work with ASDisplayNode's asynchronous
  * rendering model.
  */
 @property (nonatomic, assign) BOOL shouldRasterizeDescendants;
 
-/** 
+/**
  * @abstract Prevent the node's layer from displaying.
  *
- * @discussion A subclass may check this flag during -display or -drawInContext: to cancel a display that is already in 
+ * @discussion A subclass may check this flag during -display or -drawInContext: to cancel a display that is already in
  * progress.
  *
- * Defaults to NO. Does not control display for any child or descendant nodes; for that, use 
+ * Defaults to NO. Does not control display for any child or descendant nodes; for that, use
  * -recursivelySetDisplaySuspended:.
  *
- * If a setNeedsDisplay occurs while displaySuspended is YES, and displaySuspended is set to NO, then the 
+ * If a setNeedsDisplay occurs while displaySuspended is YES, and displaySuspended is set to NO, then the
  * layer will be automatically displayed.
  */
 @property (nonatomic, assign) BOOL displaySuspended;
@@ -433,7 +433,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) BOOL shouldAnimateSizeChanges;
 
-/** 
+/**
  * @abstract Prevent the node and its descendants' layer from displaying.
  *
  * @param flag YES if display should be prevented or cancelled; NO otherwise.
@@ -505,18 +505,18 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name Hit Testing */
 
 
-/** 
+/**
  * @abstract Bounds insets for hit testing.
  *
- * @discussion When set to a non-zero inset, increases the bounds for hit testing to make it easier to tap or perform 
+ * @discussion When set to a non-zero inset, increases the bounds for hit testing to make it easier to tap or perform
  * gestures on this node.  Default is UIEdgeInsetsZero.
  *
- * This affects the default implementation of -hitTest and -pointInside, so subclasses should call super if you override 
+ * This affects the default implementation of -hitTest and -pointInside, so subclasses should call super if you override
  * it and want hitTestSlop applied.
  */
 @property (nonatomic, assign) UIEdgeInsets hitTestSlop;
 
-/** 
+/**
  * @abstract Returns a Boolean value indicating whether the receiver contains the specified point.
  *
  * @discussion Includes the "slop" factor specified with hitTestSlop.
@@ -532,7 +532,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name Converting Between View Coordinate Systems */
 
 
-/** 
+/**
  * @abstract Converts a point from the receiver's coordinate system to that of the specified node.
  *
  * @param point A point specified in the local coordinate system (bounds) of the receiver.
@@ -543,7 +543,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGPoint)convertPoint:(CGPoint)point toNode:(nullable ASDisplayNode *)node;
 
 
-/** 
+/**
  * @abstract Converts a point from the coordinate system of a given node to that of the receiver.
  *
  * @param point A point specified in the local coordinate system (bounds) of node.
@@ -554,7 +554,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGPoint)convertPoint:(CGPoint)point fromNode:(nullable ASDisplayNode *)node;
 
 
-/** 
+/**
  * @abstract Converts a rectangle from the receiver's coordinate system to that of another view.
  *
  * @param rect A rectangle specified in the local coordinate system (bounds) of the receiver.
@@ -564,7 +564,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (CGRect)convertRect:(CGRect)rect toNode:(nullable ASDisplayNode *)node;
 
-/** 
+/**
  * @abstract Converts a rectangle from the coordinate system of another node to that of the receiver.
  *
  * @param rect A rectangle specified in the local coordinate system (bounds) of node.
@@ -597,7 +597,7 @@ NS_ASSUME_NONNULL_END
  *
  * ASDisplayNode provides thread-safe access to most of UIView and CALayer properties and methods, traditionally unsafe.
  *
- * Using them will not cause the actual view/layer to be created, and will be applied when it is created (when the view 
+ * Using them will not cause the actual view/layer to be created, and will be applied when it is created (when the view
  * or layer property is accessed).
  *
  * - NOTE: After the view or layer is created, the properties pass through to the view or layer directly and must be called on the main thread.
@@ -613,11 +613,11 @@ NS_ASSUME_NONNULL_END
 
 /**
  * Marks the node as needing layout. Convenience for use whether the view / layer is loaded or not. Safe to call from a background thread.
- * 
+ *
  * If this node was measured, calling this method triggers an internal relayout: the calculated layout is invalidated,
  * and the supernode is notified or (if this node is the root one) a full measurement pass is executed using the old constrained size.
  *
- * Note: ASCellNode has special behavior in that calling this method will automatically notify 
+ * Note: ASCellNode has special behavior in that calling this method will automatically notify
  * the containing ASTableView / ASCollectionView that the cell should be resized, if necessary.
  */
 - (void)setNeedsLayout;
@@ -649,7 +649,7 @@ NS_ASSUME_NONNULL_END
  *
  * @discussion In contrast to UIView, setting a transparent color will not set opaque = NO.
  * This only affects nodes that implement +drawRect like ASTextNode.
-*/
+ */
 @property (atomic, strong, nullable) UIColor *backgroundColor;              // default=nil
 
 @property (atomic, strong, null_resettable)    UIColor *tintColor;          // default=Blue
@@ -658,9 +658,9 @@ NS_ASSUME_NONNULL_END
 /**
  * @abstract A flag used to determine how a node lays out its content when its bounds change.
  *
- * @discussion This is like UIView's contentMode property, but better. We do our own mapping to layer.contentsGravity in 
- * _ASDisplayView. You can set needsDisplayOnBoundsChange independently. 
- * Thus, UIViewContentModeRedraw is not allowed; use needsDisplayOnBoundsChange = YES instead, and pick an appropriate 
+ * @discussion This is like UIView's contentMode property, but better. We do our own mapping to layer.contentsGravity in
+ * _ASDisplayView. You can set needsDisplayOnBoundsChange independently.
+ * Thus, UIViewContentModeRedraw is not allowed; use needsDisplayOnBoundsChange = YES instead, and pick an appropriate
  * contentMode for your content while it's being re-rendered.
  */
 @property (atomic, assign)           UIViewContentMode contentMode;         // default=UIViewContentModeScaleToFill
@@ -695,30 +695,20 @@ NS_ASSUME_NONNULL_END
 - (nullable UIView *)preferredFocusedView;
 #endif
 
-@end
-
-@interface ASDisplayNode (UIViewBridgeAccessibility)
-
 // Accessibility support
-@property (nonatomic, assign)           BOOL isAccessibilityElement;
-@property (nonatomic, copy, nullable)   NSString *accessibilityLabel;
-@property (nonatomic, copy, nullable)   NSString *accessibilityHint;
-@property (nonatomic, copy, nullable)   NSString *accessibilityValue;
-@property (nonatomic, assign)           UIAccessibilityTraits accessibilityTraits;
-@property (nonatomic, assign)           CGRect accessibilityFrame;
-@property (nonatomic, copy, nullable)   UIBezierPath *accessibilityPath;
-@property (nonatomic, assign)           CGPoint accessibilityActivationPoint;
-@property (nonatomic, copy, nullable)   NSString *accessibilityLanguage;
-@property (nonatomic, assign)           BOOL accessibilityElementsHidden;
-@property (nonatomic, assign)           BOOL accessibilityViewIsModal;
-@property (nonatomic, assign)           BOOL shouldGroupAccessibilityChildren;
-@property (nonatomic, assign)           UIAccessibilityNavigationStyle accessibilityNavigationStyle;
-#if TARGET_OS_TV
-@property(nonatomic, copy, nullable) 	NSArray *accessibilityHeaderElements;
-#endif
+@property (atomic, assign)           BOOL isAccessibilityElement;
+@property (nullable, atomic, copy)   NSString *accessibilityLabel;
+@property (nullable, atomic, copy)   NSString *accessibilityHint;
+@property (nullable, atomic, copy)   NSString *accessibilityValue;
+@property (atomic, assign)           UIAccessibilityTraits accessibilityTraits;
+@property (atomic, assign)           CGRect accessibilityFrame;
+@property (nullable, atomic, strong) NSString *accessibilityLanguage;
+@property (atomic, assign)           BOOL accessibilityElementsHidden;
+@property (atomic, assign)           BOOL accessibilityViewIsModal;
+@property (atomic, assign)           BOOL shouldGroupAccessibilityChildren;
 
 // Accessibility identification support
-@property (nonatomic, copy, nullable)   NSString *accessibilityIdentifier;
+@property (nullable, nonatomic, copy) NSString *accessibilityIdentifier;
 
 @end
 
